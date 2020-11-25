@@ -116,7 +116,7 @@ class Image:
         self.status[self.get_indices(index)]=direction
         self.stale+=1
         self.loss+=loss_diff
-        if self.verbose:
+        if True:
             print("Pushing group of",self.group_size,"beginning at",index,"to",["lower bound,","","upper bound,"][direction+1],"Current loss is",self.loss,"and",self.calls,"calls have been made to the model.")
     def reset(self):
         self.stale=self.stale*0
@@ -289,7 +289,7 @@ def DeepSearch(image,model,true_class,epsilon,max_calls):
 def DeepSearchBatched(image,model,true_class,epsilon,max_calls,batch_size=64,randomize=True,x_ent=False,gr_init=4):
     target=Image(image,model,true_class,epsilon,group_size=gr_init,x_ent=x_ent)
     print("Initial loss is",target.loss)
-    while(target.loss>-10000 and target.calls<max_calls):
+    while(target.loss>-10000 """not found""" and target.calls<max_calls):
         selected=[]
         cur_batch=0
         all_pivots=target.get_pivots(0)
@@ -303,7 +303,7 @@ def DeepSearchBatched(image,model,true_class,epsilon,max_calls,batch_size=64,ran
                 for x in selected:
                     target.push(x,0)
                 target.loss=target.loss_fn(target.image)
-                if target.loss<-10000:
+                if target.loss<-10000: # if found
                     return True,target.image,target.calls
                 if target.calls>max_calls:
                     return False,image,target.calls

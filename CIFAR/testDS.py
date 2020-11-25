@@ -20,7 +20,7 @@ from os import mkdir
 from os.path import exists
 if not exists("DSBatched"):
     mkdir("DSBatched")
-path="DSBatched/"+str(datetime.now())+"/"
+path="DSBatched/"+str(datetime.now()).replace(":","_") +"/"
 mkdir(path)
 sys.stdout=open(path+"log.txt","w")
 loss=False

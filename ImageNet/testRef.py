@@ -21,7 +21,7 @@ from os import mkdir
 from os.path import exists
 if not exists("DSRefine"):
     mkdir("DSRefine")
-path="DSRefine/"+str(datetime.now())+"/"
+path="DSRefine/"+str(datetime.now()).replace(":","_")+"/"
 mkdir(path)
 sys.stdout=open(path+"log.txt","w")
 loss=False
@@ -37,11 +37,11 @@ tot=0
 dir="DSBatched/cw/"
 dic=load(open("DSBatched/cw/data.pkl","rb"))
 print(dic)
-target_set=list(range(1000))
+target_set=list(range(1))
 for j in target_set:
     tot+=1
     print("Starting attack on image", tot, "with index",j)
-    ret=DSRefFromImage(x_test,j,dir,dic,mymodel,y_test[j],8/255,max_calls=10000, batch_size=64,x_ent=loss,gr_init=grs)
+    ret=DSRefFromImage(x_test,j,dir,dic,mymodel,y_test[j],8/255,max_calls=1000, batch_size=64,x_ent=loss,gr_init=grs)
     dump(ret[1].reshape(1,256,256,3),open(path+"image_"+str(j)+".pkl","wb"))
     Data[j]=ret[0],ret[2],ret[3]
     if ret[0]:
